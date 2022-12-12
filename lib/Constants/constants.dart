@@ -9,3 +9,4 @@ const subHeading = TextStyle(fontSize: 18, color: Colors.black, fontWeight: Font
 const bodyText = TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.normal);
 const smallText = TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.normal);
 
+const String API_KEY = "b49277679077461da0b93b707a9a6057";

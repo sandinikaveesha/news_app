@@ -22,7 +22,8 @@ class BookMarksScreen extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(itemBuilder: ( (context, index) {
-                return NewsListTitle();
+                //return NewsListTitle();
+                return Text("");
               }),
               itemCount: 3,
               ),

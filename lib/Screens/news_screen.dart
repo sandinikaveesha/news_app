@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:newsapi/models/article.dart';
+import 'package:newsapi/models/source.dart';
 
 import '../Components/navigation_button.dart';
 import '../Constants/constants.dart';
 
 class NewsScreen extends StatelessWidget {
-  const NewsScreen({Key? key}) : super(key: key);
-
+  const NewsScreen({Key? key, required this.news, required this.source})
+      : super(key: key);
+  final Article news;
+  final Source source;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Selected News"),
+        title: Text(source.name.toString()),
         backgroundColor: secondaryColor,
         leading: const NavigationButton(),
       ),
@@ -26,8 +30,7 @@ class NewsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(
-                      "https://ichef.bbci.co.uk/news/1024/branded_news/10B86/production/_127968486_gettyimages-156431895.jpg"),
+                  image: NetworkImage("${news.urlToImage.toString()}"),
                 ),
               ),
               child: Text(""),
@@ -39,11 +42,11 @@ class NewsScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Column(
-                    children: const [
+                    children: [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
-                          "Lorem ipsum dolor sit amet consectetur",
+                          "${news.title.toString()}",
                           style: mainHeading,
                         ),
                       ),
@@ -64,11 +67,37 @@ class NewsScreen extends StatelessWidget {
               height: 20,
             ),
             SingleChildScrollView(
-              child: const Padding(
+              child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  "Lorem ipsum dolor sit amet consectetur. Mauris mauris rhoncus dolor id tellus. In dui pretium eninunc purus viverra enim auctor neque. Egestas morbi diam varius quis nec aliquam nisi maecenas. Eget sagittis vel congue semper maecenas dui.Lorem ipsum dolor sit amet consectetur. Mauris mauris rhoncus dolor id tellus. In dui pretium eninunc purus viverra enim auctor neque. Egestas morbi diam varius quis nec aliquam nisi maecenas. Eget sagittis vel congue semper maecenas dui.",
-                  style: bodyText,
+                child: Column(
+                  children: [
+                    Text(
+                      news.description.toString(),
+                      style: bodyText,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      news.content.toString(),
+                      style: bodyText,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.schedule),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "${DateTime.now().difference(DateTime.parse(news.publishAt.toString())).inMinutes} minutes ago",
+                          style: smallText,
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
             )

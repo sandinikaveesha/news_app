@@ -4,7 +4,9 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:newsapi/Constants/constants.dart';
 import 'package:newsapi/Screens/bokmarks_screen.dart';
 import 'package:newsapi/Screens/home_screen.dart';
+import 'package:provider/provider.dart';
 
+import '../Provider/news_provider.dart';
 import '../Screens/search_screen.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
@@ -58,6 +60,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               iconColor: Colors.white,
               text: 'Search',
               onPressed: () {
+                 context.read<NewsModel>().searchNews("all");
                 Navigator.push(
                   context,
                   MaterialPageRoute(

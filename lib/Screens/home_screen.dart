@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:newsapi/Components/custome_buttom_navigationbar.dart';
 import 'package:newsapi/Components/news_list_tile.dart';
 import 'package:newsapi/Components/search_bar.dart';
+import 'package:newsapi/Controller/news_controller.dart';
+import 'package:newsapi/Repository/news_repository.dart';
 import 'package:newsapi/Screens/category_display_screen.dart';
 import 'package:newsapi/Screens/news_screen.dart';
+import 'package:newsapi/models/article.dart';
+import 'package:provider/provider.dart';
 import '../Components/category_list_tile.dart';
 import '../Constants/constants.dart';
+import '../Provider/news_provider.dart';
 import '../models/category.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,8 +21,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+   //variables
+    List<Article> _news = [];
+
+    //Data Load
+    _dataLoad() async{
+      var response = await _newsController.fetchAll();
+      _news = response;
+    }
+     //Injections
+    final _newsController = NewsController(NewsRepository());
+
+  @override
+  void initState() {
+   
+    super.initState();
+    _dataLoad();
+  }
   @override
   Widget build(BuildContext context) {
+   
     //Greeting message generator
     var timeNow = DateTime.now().hour;
     String greetingMessage() {
@@ -29,10 +52,11 @@ class _HomeScreenState extends State<HomeScreen> {
         return 'Good Evening, ';
       }
     }
+   
 
     //Category List
     List<Category> categories = [
-      Category(slug: "technology", name: "Technology", color: Colors.green),
+      Category(slug: "technology", name: "Technology", color: Colors.green,),
       Category(
           slug: "business", name: "Business", color: const Color(0xffF49D1A)),
       Category(
@@ -40,12 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
       Category(slug: "health", name: "Health", color: const Color(0xff3B185F)),
       Category(
           slug: "science", name: "Science", color: const Color(0xff4B56D2)),
-      Category(slug: "sports", name: "Sports", color: const Color(0xffCB1C8D)),
+      Category(slug: "sports", name: "Sports", color: const Color(0xffCB1C8D), banner: "https://www.rankonesport.com/content/Images/hero-bg.jpg"),
       Category(
           slug: "entertainment",
           name: "Entertainment",
           color: const Color(0xffA555EC)),
     ];
+
 
     return Scaffold(
       body: Container(
@@ -75,10 +100,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: ((context, index) {
                   return GestureDetector(
                     onTap: (){
+                       context.read<NewsModel>().filterByCategory(categories[index].slug.toString());
                       Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: ((context) => const CategoryDisplayScreen()),
+                        builder: ((context) => CategoryDisplayScreen(category: categories[index],)),
                       ),
                     );
                     },
@@ -106,19 +132,9 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: ListView.builder(
                 itemBuilder: ((context, index) {
-                  return GestureDetector(
-                    onTap: (){ 
-                      Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: ((context) => const NewsScreen()),
-                      ),
-                    );
-                    },
-                    child: const NewsListTitle(),
-                  );
+                  return NewsListTitle(news:_news[index]);
                 }),
-                itemCount: 5,
+                itemCount: _news.length,
               ),
             ),
           ],
