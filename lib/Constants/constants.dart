@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const screenColor = Color(0xffF8F8F8);
+const screenColor = Colors.white;
 const secondaryColor = Color(0xff445FBC);
 
 const mainHeading = TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.bold);

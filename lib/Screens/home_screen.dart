@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:newsapi/Components/custome_buttom_navigationbar.dart';
 import 'package:newsapi/Components/news_list_tile.dart';
 import 'package:newsapi/Components/search_bar.dart';
+import 'package:newsapi/Screens/category_display_screen.dart';
+import 'package:newsapi/Screens/news_screen.dart';
 import '../Components/category_list_tile.dart';
 import '../Constants/constants.dart';
 import '../models/category.dart';
@@ -28,20 +31,27 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     //Category List
-    List<Category> categories =  [
-    Category(slug: "technology", name: "Technology", color: Colors.green),
-    Category(slug: "business", name: "Business", color: const Color(0xffF49D1A)),
-    Category(slug: "general", name: "General", color: const Color(0xffDC3535)),
-    Category(slug: "health", name: "Health", color: const Color(0xff3B185F)),
-    Category(slug: "science", name: "Science", color: const Color(0xff4B56D2)),
-    Category(slug: "sports", name: "Sports", color: const Color(0xffCB1C8D)),
-    Category(slug: "entertainment", name: "Entertainment", color: const Color(0xffA555EC)), 
-  ];
+    List<Category> categories = [
+      Category(slug: "technology", name: "Technology", color: Colors.green),
+      Category(
+          slug: "business", name: "Business", color: const Color(0xffF49D1A)),
+      Category(
+          slug: "general", name: "General", color: const Color(0xffDC3535)),
+      Category(slug: "health", name: "Health", color: const Color(0xff3B185F)),
+      Category(
+          slug: "science", name: "Science", color: const Color(0xff4B56D2)),
+      Category(slug: "sports", name: "Sports", color: const Color(0xffCB1C8D)),
+      Category(
+          slug: "entertainment",
+          name: "Entertainment",
+          color: const Color(0xffA555EC)),
+    ];
 
     return Scaffold(
       body: Container(
-        padding:
-            const EdgeInsets.only(top: 50, bottom: 30,),
+        padding: const EdgeInsets.only(
+          top: 50,
+        ),
         color: screenColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -56,30 +66,65 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 30,
             ),
-            const SearchBar(),
-            const SizedBox(height: 20,),
             SizedBox(
               height: 60,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                    itemBuilder: ((context, index) {
-                      return CategoryListTile(category: categories[index],);
-                    }),
-                    itemCount: categories.length,
-                  ),
+                itemBuilder: ((context, index) {
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: ((context) => const CategoryDisplayScreen()),
+                      ),
+                    );
+                    },
+                    child: CategoryListTile(
+                      category: categories[index],
+                    ),
+                  );
+                }),
+                itemCount: categories.length,
+              ),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             const Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 20),
-              child: Text("Explore", style: subHeading,),
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                "Explore",
+                style: subHeading,
+              ),
             ),
-            const SizedBox(height: 20,),
-            NewsListTitle(),
+            const SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: ((context, index) {
+                  return GestureDetector(
+                    onTap: (){ 
+                      Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: ((context) => const NewsScreen()),
+                      ),
+                    );
+                    },
+                    child: const NewsListTitle(),
+                  );
+                }),
+                itemCount: 5,
+              ),
+            ),
           ],
         ),
       ),
+      bottomNavigationBar: const CustomBottomNavigationBar(index: 0),
     );
   }
 }
