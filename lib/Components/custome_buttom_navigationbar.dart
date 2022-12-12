@@ -43,7 +43,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           
           tabs: [
             GButton(
-              icon: Icons.home,
+              icon: Icons.home_outlined,
               iconColor: Colors.white,
               text: 'Home',
               onPressed: () {
@@ -67,14 +67,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               },
             ),
              GButton(
-              icon: Icons.bookmark,
+              icon: Icons.bookmark_outline,
               iconColor: Colors.white,
               text: 'Bookmark',
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BookMarksScreen(),
+                    builder: (context) => const BookMarksScreen(),
                   ),
                 );
               },
