@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:newsapi/Provider/bookmark_provider.dart';
 import 'package:newsapi/Provider/news_provider.dart';
 import 'package:provider/provider.dart';
 import './Screens/splash_screen.dart';
 
-void main() {
-  runApp(ChangeNotifierProvider(create: (context)=> NewsModel(), child: const MyApp(),));
+
+void main(){
+  runApp(MultiProvider(providers: [ChangeNotifierProvider(create: (context)=> NewsModel()), ChangeNotifierProvider(create: (context) => BookmarkModel(),)],child: const MyApp(),));
 }
 
 class MyApp extends StatelessWidget {

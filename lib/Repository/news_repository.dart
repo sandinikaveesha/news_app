@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class NewsRepository implements NewsService{
   @override
   Future<List<Article>> fetchAll() async{
-    var url = Uri.parse("https://newsapi.org/v2/everything?q=all&sortBy=publishedAt&apiKey=b49277679077461da0b93b707a9a6057");
+    var url = Uri.parse("https://newsapi.org/v2/everything?q=all&sortBy=publishedAt&language=en&apiKey=ea04b773aebb4851acbcc92088bd4f6d");
     var response = await http.get(url);
     if(response.statusCode == 200){
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -22,7 +22,7 @@ class NewsRepository implements NewsService{
 
   @override
   Future<List<Article>> fetchByCategory(category) async{
-    var url = Uri.parse("https://newsapi.org/v2/top-headlines?category=$category&apiKey=b49277679077461da0b93b707a9a6057");
+    var url = Uri.parse("https://newsapi.org/v2/top-headlines?category=$category&apiKey=ea04b773aebb4851acbcc92088bd4f6d");
     var response = await http.get(url);
     if(response.statusCode == 200){
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -35,7 +35,7 @@ class NewsRepository implements NewsService{
   }
     @override
    Future<List<Article>> fetchBySearch(keyword) async{
-    var url = Uri.parse("https://newsapi.org/v2/everything?q=$keyword&sortBy=publishedAt&apiKey=b49277679077461da0b93b707a9a6057");
+    var url = Uri.parse("https://newsapi.org/v2/everything?q=$keyword&sortBy=publishedAt&apiKey=ea04b773aebb4851acbcc92088bd4f6d");
     var response = await http.get(url);
     if(response.statusCode == 200){
       Map<String, dynamic> data = jsonDecode(response.body);

@@ -40,7 +40,7 @@ class CategoryDisplayScreen extends StatelessWidget {
             Expanded(
               
               child: status == "Loading" ? Center(child: CircularProgressIndicator(),) :  ListView.builder(itemBuilder: ( (context, index) {
-                return NewsListTitle(news:news[index], src: news[index].source,);
+                return NewsListTitle(news:news[index], source: news[index].source,);
               }),
               itemCount: news.length,
               ),

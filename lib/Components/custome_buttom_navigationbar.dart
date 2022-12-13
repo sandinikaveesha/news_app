@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:newsapi/Constants/constants.dart';
+import 'package:newsapi/Provider/bookmark_provider.dart';
 import 'package:newsapi/Screens/bokmarks_screen.dart';
 import 'package:newsapi/Screens/home_screen.dart';
 import 'package:provider/provider.dart';
@@ -74,10 +75,11 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               iconColor: Colors.white,
               text: 'Bookmark',
               onPressed: () {
+                context.read<BookmarkModel>().fetchall();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const BookMarksScreen(),
+                    builder: (context) =>  BookMarksScreen(),
                   ),
                 );
               },

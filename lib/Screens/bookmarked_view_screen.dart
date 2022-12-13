@@ -1,17 +1,18 @@
+
 import 'package:flutter/material.dart';
-import 'package:newsapi/models/article.dart';
-import 'package:newsapi/models/source.dart';
+import 'package:newsapi/Provider/bookmark_provider.dart';
+import 'package:newsapi/Screens/bokmarks_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../Components/navigation_button.dart';
 import '../Constants/constants.dart';
 import '../Utils/database_helper.dart';
 import '../models/bookmark.dart';
 
-class NewsScreen extends StatelessWidget {
-  NewsScreen({Key? key, required this.news, required this.source})
+class BookmarkedViewScreen extends StatelessWidget {
+  BookmarkedViewScreen({Key? key, required this.news, })
       : super(key: key);
-  final Article news;
-  final Source source;
+  final Bookmark news;
 
   DatabaseHelper _dbHelper = DatabaseHelper.instance;
   
@@ -19,7 +20,7 @@ class NewsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(source.name.toString()),
+        title: Text(news.source.toString()),
         backgroundColor: secondaryColor,
         leading: const NavigationButton(),
       ),
@@ -36,7 +37,7 @@ class NewsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage("${news.urlToImage.toString()}"),
+                  image: NetworkImage("${news.img.toString()}"),
                 ),
               ),
               child: Text(""),
@@ -62,9 +63,12 @@ class NewsScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 20),
                   child: GestureDetector(
-                    onTap: () => _addBookmark(news),
+                    onTap: (){
+                      context.read<BookmarkModel>().delete(int.parse(news.id.toString()));
+                       Navigator.push(context, MaterialPageRoute(builder: (context)=> BookMarksScreen()));
+                    },
                     child: const Icon(
-                      Icons.bookmark_outline,
+                      Icons.delete_forever,
                       size: 30,
                       color: secondaryColor,
                     ),
@@ -96,12 +100,12 @@ class NewsScreen extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Icon(Icons.schedule),
-                        SizedBox(
+                        const Icon(Icons.schedule),
+                        const SizedBox(
                           width: 5,
                         ),
                         Text(
-                          "${DateTime.now().difference(DateTime.parse(news.publishAt.toString())).inMinutes} minutes ago",
+                          "${DateTime.now().difference(DateTime.parse(news.published.toString())).inMinutes} minutes ago",
                           style: smallText,
                         ),
                       ],
@@ -115,10 +119,6 @@ class NewsScreen extends StatelessWidget {
       ),
     );
   }
-   _addBookmark(Article article) async{
-    Source src = article.source; 
-    Bookmark bookmark = Bookmark(title: article.title, description: article.description, content: article.content, published: article.publishAt, img: article.urlToImage, source: src.name);
-    await _dbHelper.insertBookmark(bookmark);
 
-  }
+  
 }

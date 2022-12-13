@@ -1,15 +1,27 @@
 
 import 'package:flutter/material.dart';
 import 'package:newsapi/Screens/news_screen.dart';
+import 'package:newsapi/Utils/database_helper.dart';
 import 'package:newsapi/models/article.dart';
+import 'package:newsapi/models/bookmark.dart';
 import 'package:newsapi/models/source.dart';
 import '../Constants/constants.dart';
 
-class NewsListTitle extends StatelessWidget {
-  NewsListTitle({Key? key, required this.news, required this.src}) : super(key: key);
+class NewsListTitle extends StatefulWidget {
+  NewsListTitle({Key? key, required this.news, required this.source}) : super(key: key);
   final Article news;
-  final Source src;
-  
+  final Source source;
+
+  @override
+  State<NewsListTitle> createState() => _NewsListTitleState();
+}
+
+class _NewsListTitleState extends State<NewsListTitle> {
+  //Inject DB HELPER
+  DatabaseHelper _dbHelper = DatabaseHelper.instance;
+
+  bool click = false;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,7 +30,7 @@ class NewsListTitle extends StatelessWidget {
       ),
       child: InkWell(
         onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> NewsScreen(news: news, source: news.source)));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> NewsScreen(news: widget.news, source: widget.news.source)));
         },
         child: Card(
           elevation: 6,
@@ -33,7 +45,7 @@ class NewsListTitle extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        src.name.toString(),
+                        widget.source.name.toString(),
                         style: smallText,
                       ),
                       const SizedBox(
@@ -43,7 +55,7 @@ class NewsListTitle extends StatelessWidget {
                         height: 20,
                       ),
                       Text(
-                        news.title.toString(), style: subHeading, maxLines: 3, overflow: TextOverflow.fade,
+                        widget.news.title.toString(), style: subHeading, maxLines: 3, overflow: TextOverflow.fade,
                         
                       ),
                       const SizedBox(
@@ -51,15 +63,16 @@ class NewsListTitle extends StatelessWidget {
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                             Text(
-                       "${DateTime.now().difference(DateTime.parse(news.publishAt.toString())).inMinutes} minutes ago",
+                       "${DateTime.now().difference(DateTime.parse(widget.news.publishAt.toString())).inMinutes} minutes ago",
                         style: smallText,
                       ),
-                       SizedBox(
-                            width: 100,
+                       const SizedBox(
+                            width: 70,
                           ),
-                        Icon(Icons.bookmark_outline),
+                        IconButton(icon: Icon(click == true ? Icons.bookmark : Icons.bookmark_outline,),onPressed: () => _addBookmark(widget.news),),
                         ],
                       )
                     ],
@@ -76,7 +89,7 @@ class NewsListTitle extends StatelessWidget {
                       width: 135,
                       decoration: BoxDecoration(image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage("${news.urlToImage.toString()}"),),),
+                        image: NetworkImage("${widget.news.urlToImage.toString()}"),),),
                         child: const Text(""),
                     ),
                   ],
@@ -87,5 +100,18 @@ class NewsListTitle extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _addBookmark(Article article) async{
+    if(click == false){
+    Source src = article.source; 
+    Bookmark bookmark = Bookmark(title: article.title, description: article.description, content: article.content, published: article.publishAt, img: article.urlToImage, source: src.name);
+    await _dbHelper.insertBookmark(bookmark);
+    setState(() {
+      click = true;
+    });
+    }
+    else{return;}
+
   }
 }

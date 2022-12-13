@@ -122,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: status == "Loading" ?  Center(child: CircularProgressIndicator(),) :  ListView.builder(
                 itemBuilder: ((context, index) {
-                  return NewsListTitle(news:_news[index], src: _news[index].source,);
+                  return NewsListTitle(news:_news[index], source: _news[index].source,);
                 }),
                 itemCount: _news.length,
               ),
