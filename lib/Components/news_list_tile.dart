@@ -6,8 +6,9 @@ import 'package:newsapi/models/source.dart';
 import '../Constants/constants.dart';
 
 class NewsListTitle extends StatelessWidget {
-  NewsListTitle({Key? key, required this.news}) : super(key: key);
+  NewsListTitle({Key? key, required this.news, required this.src}) : super(key: key);
   final Article news;
+  final Source src;
   
   @override
   Widget build(BuildContext context) {
@@ -31,8 +32,8 @@ class NewsListTitle extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Source",
+                      Text(
+                        src.name.toString(),
                         style: smallText,
                       ),
                       const SizedBox(

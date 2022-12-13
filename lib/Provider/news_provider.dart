@@ -35,4 +35,15 @@ class NewsModel extends ChangeNotifier{
     }
     notifyListeners();
   }
+
+  void newsAll() async{
+    try {
+      final response = await _newsController.fetchAll();
+      _news = response;
+      _status = "Completed";
+    } catch (e) {
+      _status = "Error";
+    }
+    notifyListeners();
+  }
 }

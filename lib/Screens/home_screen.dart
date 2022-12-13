@@ -23,24 +23,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
    //variables
     List<Article> _news = [];
+    String status = "";
+    
 
-    //Data Load
-    _dataLoad() async{
-      var response = await _newsController.fetchAll();
-      _news = response;
-    }
-     //Injections
-    final _newsController = NewsController(NewsRepository());
 
-  @override
-  void initState() {
-   
-    super.initState();
-    _dataLoad();
-  }
   @override
   Widget build(BuildContext context) {
-   
+    context.read<NewsModel>().newsAll();
     //Greeting message generator
     var timeNow = DateTime.now().hour;
     String greetingMessage() {
@@ -71,7 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
           color: const Color(0xffA555EC)),
     ];
 
-
+    _news = context.watch<NewsModel>().newses;
+    status = context.watch<NewsModel>().status;
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.only(
@@ -130,9 +120,9 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 20,
             ),
             Expanded(
-              child: ListView.builder(
+              child: status == "Loading" ?  Center(child: CircularProgressIndicator(),) :  ListView.builder(
                 itemBuilder: ((context, index) {
-                  return NewsListTitle(news:_news[index]);
+                  return NewsListTitle(news:_news[index], src: _news[index].source,);
                 }),
                 itemCount: _news.length,
               ),

@@ -51,7 +51,7 @@ class SearchScreen extends StatelessWidget {
               const SizedBox(height: 20,),
               Expanded(
                 child: ListView.builder(itemBuilder: ((context, index) {
-                  return NewsListTitle(news: news[index]);
+                  return NewsListTitle(news: news[index], src: news[index].source);
                 }),
                 itemCount: news.length,
                 ),
