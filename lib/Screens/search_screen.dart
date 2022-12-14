@@ -12,7 +12,7 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final  news  = context.watch<NewsModel>().newses;
+    final  news  = context.watch<NewsModel>().serach;
     return Scaffold(
       appBar: AppBar(
         title: Text("Search"),
@@ -42,6 +42,9 @@ class SearchScreen extends StatelessWidget {
                       Icons.search,
                       color: Colors.black,
                     ),
+                    suffixIcon: IconButton(onPressed: (){
+                      context.read<NewsModel>().sortfunc();
+                    }, icon: const Icon(Icons.sort, color: Colors.black,)),
                     hintText: "Search",
                     hintStyle: bodyText,
                   ),

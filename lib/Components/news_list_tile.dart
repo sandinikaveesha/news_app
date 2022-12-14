@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:newsapi/Screens/news_screen.dart';
 import 'package:newsapi/Utils/database_helper.dart';
@@ -8,7 +7,8 @@ import 'package:newsapi/models/source.dart';
 import '../Constants/constants.dart';
 
 class NewsListTitle extends StatefulWidget {
-  NewsListTitle({Key? key, required this.news, required this.source}) : super(key: key);
+  NewsListTitle({Key? key, required this.news, required this.source})
+      : super(key: key);
   final Article news;
   final Source source;
 
@@ -29,8 +29,12 @@ class _NewsListTitleState extends State<NewsListTitle> {
         horizontal: 20,
       ),
       child: InkWell(
-        onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> NewsScreen(news: widget.news, source: widget.news.source)));
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NewsScreen(
+                      news: widget.news, source: widget.news.source)));
         },
         child: Card(
           elevation: 6,
@@ -55,8 +59,10 @@ class _NewsListTitleState extends State<NewsListTitle> {
                         height: 20,
                       ),
                       Text(
-                        widget.news.title.toString(), style: subHeading, maxLines: 3, overflow: TextOverflow.fade,
-                        
+                        widget.news.title.toString(),
+                        style: subHeading,
+                        maxLines: 3,
+                        overflow: TextOverflow.fade,
                       ),
                       const SizedBox(
                         height: 20,
@@ -65,14 +71,21 @@ class _NewsListTitleState extends State<NewsListTitle> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                            Text(
-                       "${DateTime.now().difference(DateTime.parse(widget.news.publishAt.toString())).inMinutes} minutes ago",
-                        style: smallText,
-                      ),
-                       const SizedBox(
+                          Text(
+                            " ${DateTime.now().difference(DateTime.parse(widget.news.publishAt.toString())).inMinutes > 60 ? DateTime.now().difference(DateTime.parse(widget.news.publishAt.toString())).inHours : DateTime.now().difference(DateTime.parse(widget.news.publishAt.toString())).inMinutes} ${DateTime.now().difference(DateTime.parse(widget.news.publishAt.toString())).inMinutes > 60 ? "hours ago" : "minutes ago"}",
+                            style: smallText,
+                          ),
+                          const SizedBox(
                             width: 70,
                           ),
-                        IconButton(icon: Icon(click == true ? Icons.bookmark : Icons.bookmark_outline,),onPressed: () => _addBookmark(widget.news),),
+                          IconButton(
+                            icon: Icon(
+                              click == true
+                                  ? Icons.bookmark
+                                  : Icons.bookmark_outline,
+                            ),
+                            onPressed: () => _addBookmark(widget.news),
+                          ),
                         ],
                       )
                     ],
@@ -84,13 +97,17 @@ class _NewsListTitleState extends State<NewsListTitle> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container( 
+                    Container(
                       height: 135,
                       width: 135,
-                      decoration: BoxDecoration(image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage("${widget.news.urlToImage.toString()}"),),),
-                        child: const Text(""),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                              "${widget.news.urlToImage.toString()}"),
+                        ),
+                      ),
+                      child: const Text(""),
                     ),
                   ],
                 )
@@ -102,16 +119,22 @@ class _NewsListTitleState extends State<NewsListTitle> {
     );
   }
 
-  _addBookmark(Article article) async{
-    if(click == false){
-    Source src = article.source; 
-    Bookmark bookmark = Bookmark(title: article.title, description: article.description, content: article.content, published: article.publishAt, img: article.urlToImage, source: src.name);
-    await _dbHelper.insertBookmark(bookmark);
-    setState(() {
-      click = true;
-    });
+  _addBookmark(Article article) async {
+    if (click == false) {
+      Source src = article.source;
+      Bookmark bookmark = Bookmark(
+          title: article.title,
+          description: article.description,
+          content: article.content,
+          published: article.publishAt,
+          img: article.urlToImage,
+          source: src.name);
+      await _dbHelper.insertBookmark(bookmark);
+      setState(() {
+        click = true;
+      });
+    } else {
+      return;
     }
-    else{return;}
-
   }
 }

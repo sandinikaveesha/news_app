@@ -18,7 +18,7 @@ class BookMarksScreen extends StatelessWidget {
     _bookmarks = context.watch<BookmarkModel>().bookmarks;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Bookmarks"),
+        title: const Text("Bookmarks"),
         backgroundColor: secondaryColor,
         leading: const NavigationButton(),
       ),
@@ -86,7 +86,7 @@ class BookMarksScreen extends StatelessWidget {
                                           onTap:(){
                                             context.read<BookmarkModel>().delete(int.parse(_bookmarks[index].id.toString()));
                                           },
-                                          child: Icon(Icons.delete)),
+                                          child: const Icon(Icons.delete)),
                                       ],
                                     )
                                   ],

@@ -51,7 +51,7 @@ class BookmarkedViewScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
                           "${news.title.toString()}",
                           style: mainHeading,

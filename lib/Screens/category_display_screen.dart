@@ -13,7 +13,7 @@ class CategoryDisplayScreen extends StatelessWidget {
   final Category category;
   @override
   Widget build(BuildContext context) {
-    final news = context.watch<NewsModel>().newses;
+    final news = context.watch<NewsModel>().categories;
     final status = context.watch<NewsModel>().status;
     return Scaffold(
       appBar: AppBar(
@@ -31,7 +31,7 @@ class CategoryDisplayScreen extends StatelessWidget {
               width: double.maxFinite,
               height: 250,
               decoration: BoxDecoration(
-              color: Colors.yellow,
+              
               image: DecorationImage(image: NetworkImage("${category.banner.toString()}"), fit: BoxFit.cover),
               borderRadius: BorderRadius.circular(10)
               ),

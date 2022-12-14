@@ -45,19 +45,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
     //Category List
     List<Category> categories = [
-      Category(slug: "technology", name: "Technology", color: Colors.green,),
+      Category(slug: "technology", name: "Technology", color: Colors.green, banner:"https://imageio.forbes.com/specials-images/imageserve/5ef3f7eec4f2390006f0c356/GUI--Graphical-User-Interface--concept-/960x0.jpg?format=jpg&width=960" ),
       Category(
-          slug: "business", name: "Business", color: const Color(0xffF49D1A)),
+          slug: "business", name: "Business", color: const Color(0xffF49D1A), banner:"https://img.freepik.com/free-photo/group-diverse-people-having-business-meeting_53876-25060.jpg?w=2000" ),
       Category(
-          slug: "general", name: "General", color: const Color(0xffDC3535)),
-      Category(slug: "health", name: "Health", color: const Color(0xff3B185F)),
+          slug: "general", name: "General", color: const Color(0xffDC3535), banner: "https://imageio.forbes.com/specials-images/imageserve/610809bb8938d8e7611910e5/think-outside-the-box-on-school-green-blackboard---startup--education-concept-/960x0.jpg?format=jpg&width=960"),
+      Category(slug: "health", name: "Health", color: const Color(0xff3B185F), banner:"https://cdn.medifind.com/wp/2020/08/31184653/00_3_8-Major-Problems-with-the-US-Healthcare-System-Today_hero-768x510.png" ),
       Category(
-          slug: "science", name: "Science", color: const Color(0xff4B56D2)),
+          slug: "science", name: "Science", color: const Color(0xff4B56D2), banner: "https://img.freepik.com/free-vector/hand-drawn-science-education-background_23-2148499325.jpg?w=1060&t=st=1671007490~exp=1671008090~hmac=908c6cd2e821e2109e54d2caec17f4768054fc7be8d7da526c71f1f615a28144"),
       Category(slug: "sports", name: "Sports", color: const Color(0xffCB1C8D), banner: "https://www.rankonesport.com/content/Images/hero-bg.jpg"),
       Category(
           slug: "entertainment",
           name: "Entertainment",
-          color: const Color(0xffA555EC)),
+          color: const Color(0xffA555EC),banner:"https://www.dfcc.lk/wp-content/uploads/2020/02/Product-Banners-Entertainment.jpg" ),
     ];
 
     _news = context.watch<NewsModel>().newses;
